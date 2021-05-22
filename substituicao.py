@@ -18,7 +18,6 @@ del(processos[0])
 
 def segundaChance(passoApasso = False):
     '''Considere que o bit R de todas as páginas é zerada a cada 4(quatro) referências à memória.'''
-    global moldura,numFaltas,filaMolduraEnvelhecimento
     moldura = []#lista de moldura contém o processo e o bit de referencia
     filaMolduraEnvelhecimento = []#possui a fila do processo mais velho p o mais novo, referente aos processos que estao na moldura
     numFaltas = 0 #numero de falta é incrementado cada vez que um processo entra na moldura
@@ -58,4 +57,42 @@ def segundaChance(passoApasso = False):
             
     return numFaltas
 
-sC = segundaChance(True)
+def otimo(passoApasso = False):
+    global moldura
+    moldura = []#lista de moldura contém o processo e o bit de referencia
+    numFaltas = 0 #numero de falta é incrementado cada vez que um processo entra na moldura
+    for indice,processo in enumerate(processos):
+        if len(moldura) < quantMaxMoldura:#se a moldura tiver com vaga so add a pagina e o OT de cada uma é vazio = None
+            moldura.append([processo,-1])#salva o processo e o OT vazios, -1 foi adotado para valor vazio
+            numFaltas+=1
+        else:
+            try:
+                list(np.array(moldura)[:,0]).index(processo)#confere se a pagina já tá na moldura, se tiver nao faz nada, só reseta a moldura
+                for i in moldura:
+                    i[1] = -1
+            except ValueError:#se nao estiver ver qual é a pagina q deve ser substituida da moldura, a pagina a ser substituidade é aquela que tiver o maior valor de distancia
+                numFaltas+=1
+                for k in range(len(moldura)):#percorre as paginas da moldura
+                    indiceSubstituicao = list(np.array(moldura)[:,0]).index(moldura[k][0])#pega o indice, na matriz moldura, do processo que deve ser substituido
+                    try:#se entrar aqui é porque achou a pagina em algum lugar mais a frente
+                        indiceOP = processos[(indice+1):].index(moldura[k][0]) + 1
+                        moldura[indiceSubstituicao][1] = indiceOP #seta o valor correspondente ao OP
+                    except ValueError:# se der erro é porque  o processo nao se encontra a frente, logo atribui o valor infinito para ele
+                        indiceOP = float('inf') #inf significa valor infinito(numero muito grande)
+                        moldura[indiceSubstituicao][1] = indiceOP #seta o valor correspondente ao OP
+                maiorDaMoldura = max(list(np.array(moldura)[:,1]))#pega o que tem maior valor na moldura
+                indiceMaiorDaMoldura = list(np.array(moldura)[:,1]).index(maiorDaMoldura)#indice do que tem o maior valor na moldura
+                moldura[indiceMaiorDaMoldura][0] = processo #subistui o processo no primeiro que encontrar que tiver maior valor
+                moldura[indiceMaiorDaMoldura][1] = -1 #valor nulo para esse novo valor que entrar
+        if (passoApasso):
+            for i in moldura:
+                print(i)
+            print("Processo",processo,"chegou!")
+            print("Numero de faltas:",numFaltas,"\n")        
+    return
+
+def conjuntoDeTrabalho(passoApasso = False):
+    return
+
+sC = segundaChance(False)
+o = otimo(False)
