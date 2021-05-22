@@ -1,5 +1,5 @@
 # Algoritmos de substiuição de páginas
-* Para executar bastar executar o aquivo substituicao.py
+* Para executar bastar rodar o aquivo substituicao.py
 
 # Informações
 * Segunda Chance - Uma modificação simples para o FIFO que evita o problema de jogar fora uma página intensamente usada é inspecionar o bit de referência da página mais antiga. Considere que o bit R de todas as páginas é zerada a cada 4(quatro) referências à memória.
