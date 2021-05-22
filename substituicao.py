@@ -58,7 +58,6 @@ def segundaChance(passoApasso = False):
     return numFaltas
 
 def otimo(passoApasso = False):
-    global moldura
     moldura = []#lista de moldura contém o processo e o bit de referencia
     numFaltas = 0 #numero de falta é incrementado cada vez que um processo entra na moldura
     for indice,processo in enumerate(processos):
@@ -89,7 +88,7 @@ def otimo(passoApasso = False):
                 print(i)
             print("Processo",processo,"chegou!")
             print("Numero de faltas:",numFaltas,"\n")        
-    return
+    return numFaltas
 
 def conjuntoDeTrabalho(passoApasso = False):
     return
