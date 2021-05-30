@@ -1,6 +1,12 @@
 import numpy as np
+import sys
 
-arquivo = open('entrada.txt','r')#abre o arquivo
+entrada = sys.argv[1]
+try:
+    arquivo = open(entrada,'r')#abre o arquivo
+except:
+    print("Arquivo não encontrado!")
+    exit(0)
 
 linhas = arquivo.readlines()#le as linhas do arquivo e coloca na variavel linha
 
